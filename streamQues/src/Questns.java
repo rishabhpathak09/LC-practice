@@ -26,4 +26,14 @@ public class Questns {
                 .filter(hash::add)
                 .forEach(System.out::println);
     }
+
+    public static void firstEle(int[] arr) {
+
+
+                Arrays.stream(arr)
+                .boxed()
+                .findFirst()
+                .ifPresent(System.out::println)
+        ;
+    }
 }
