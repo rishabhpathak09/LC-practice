@@ -1,6 +1,8 @@
+import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,5 +37,14 @@ public class Questns {
                 .findFirst()
                 .ifPresent(System.out::println)
         ;
+    }
+
+    public static void maxEle(int[] arr) {
+         double x = Arrays.stream(arr)
+                .boxed()
+                .mapToDouble(Integer::doubleValue)
+                .average()
+                 .getAsDouble();
+        System.out.println("Hi "+x);
     }
 }
