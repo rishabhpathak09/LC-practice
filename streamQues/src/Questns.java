@@ -108,6 +108,77 @@ public class Questns {
     }
 
     public static void nullableList(int[] ints) {
+        class Notes{
+            int id;
+            String name;
+            long val;
+
+            public Notes(int id, String name, long val) {
+                this.id = id;
+                this.name = name;
+                this.val = val;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public long getVal() {
+                return val;
+            }
+
+            public void setVal(long val) {
+                this.val = val;
+            }
+        }
+
+        List<Notes> noteLst = new ArrayList<>();
+        noteLst.add(new Notes(1, "note1", 11));
+        noteLst.add(new Notes(2, "note2", 22));
+        noteLst.add(new Notes(3, "note3", 33));
+        noteLst.add(new Notes(4, "note4", 44));
+        noteLst.add(new Notes(5, "note5", 55));
+        noteLst.add(new Notes(5, "note9", 99));
+        noteLst.add(new Notes(6, "note4", 66));
+
+        LinkedHashMap<Integer, ArrayList> abc = noteLst.stream()
+                .sorted(Comparator.comparingLong(Notes::getVal).reversed())
+                .collect(Collectors.toMap(
+                        Notes::getId,
+                        x -> {
+                            ArrayList t = new ArrayList();
+                            t.add(x.getName());
+                            t.add(x.getVal());
+                            return t;
+                        },
+                        //works when duplicates found
+                        (oldValue, newValue) -> {
+                            ArrayList<Object> x = new ArrayList<>();
+                            x.add(newValue);
+                            x.add("Hi");
+                            x.add(oldValue);
+                            return x;
+                        },
+                        LinkedHashMap::new)
+                );
+        System.out.println(abc);
+
+        Optional.ofNullable(noteLst)
+                .orElseGet(Collections::emptyList)
+                .stream().map(Notes::getName)
+                .forEach(System.out::println);
     }
 
     public static void countEach(String str) {
