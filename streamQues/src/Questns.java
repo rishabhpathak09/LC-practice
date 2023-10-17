@@ -78,12 +78,33 @@ public class Questns {
     }
 
     public static void sort(int[] ints) {
+        Arrays.stream(ints).boxed()
+                .sorted(Comparator.reverseOrder())
+                .forEach(System.out::println);
     }
 
     public static void concatStream(int[] ints, int[] ints1) {
+        Stream.of(ints)
+                .forEach(System.out::println);
+        Stream.concat(
+                Arrays.stream(ints)
+                                .boxed(),
+                        Arrays.stream(ints1)
+                                .boxed()
+                )
+                .forEach(System.out::println);
     }
 
     public static void countWords(String[] strings) {
+        Stream.of(strings)
+                .collect(
+                        Collectors.groupingBy(
+                                Function.identity(),
+                                HashMap::new,
+                                Collectors.counting()
+                        )
+                )
+                .forEach((key, value) -> System.out.println(key + ": " + value));
     }
 
     public static void nullableList(int[] ints) {
