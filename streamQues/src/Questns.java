@@ -83,7 +83,7 @@ public class Questns {
                 .forEach(System.out::println);
     }
 
-    public static void concatStream(int[] ints, int[] ints1) {
+      public static void concatStream(int[] ints, int[] ints1) {
         Stream.of(ints)
                 .forEach(System.out::println);
         Stream.concat(
@@ -96,15 +96,57 @@ public class Questns {
     }
 
     public static void countWords(String[] strings) {
-        Stream.of(strings)
-                .collect(
-                        Collectors.groupingBy(
-                                Function.identity(),
-                                HashMap::new,
-                                Collectors.counting()
-                        )
-                )
-                .forEach((key, value) -> System.out.println(key + ": " + value));
+//        Stream.of(strings)
+//                .collect(
+//                        Collectors.groupingBy(
+//                                Function.identity(),
+//                                HashMap::new,
+//                                Collectors.counting()
+//                        )
+//                )
+//                .forEach((key, value) -> System.out.println(key + ": " + value));
+
+        String s = "aaabbcccdddd";
+        StringBuilder sb = new StringBuilder(s);
+        sb.reverse();
+        String revs = sb.toString();
+        Stream.of(revs.strip().split(""))
+                .collect(Collectors.groupingBy(
+                        Function.identity(),
+                        LinkedHashMap::new,
+                        Collectors.counting()
+                ))
+                .entrySet().stream()
+                .sorted(Comparator.comparingLong(Map.Entry::getValue))
+                .findFirst()
+                .get();
+
+
+        Long max=Stream.of(revs.strip().split(""))
+                .collect(Collectors.groupingBy(
+                        Function.identity(),
+                        LinkedHashMap::new,
+                        Collectors.counting()
+                )).entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .get().getValue();
+//        but unfortunately, there is no built-in function for getting all equivalent maximums.
+//
+//        The simplest, straight-forward solution is to find the maximum value first and retrieve all keys mapping to that value afterwards:
+
+//
+//            long max = Stream.of(revs.strip().split(""))
+//                    .collect(Collectors.groupingBy(
+//                            Function.identity(),
+//                            LinkedHashMap::new,
+//                            Collectors.counting()
+//                    ))
+//                    .values().stream().max(Comparator.naturalOrder()).get();
+//            return mapGroup.entrySet().stream()
+//                    .filter(e -> e.getValue() == max)
+//                    .map(Map.Entry::getKey)
+//                    .collect(Collectors.toList());
+//        }
     }
 
     public static void nullableList(int[] ints) {
@@ -158,7 +200,7 @@ public class Questns {
                 .collect(Collectors.toMap(
                         Notes::getId,
                         x -> {
-                            ArrayList t = new ArrayList();
+                            ArrayList<Object> t = new ArrayList<>();
                             t.add(x.getName());
                             t.add(x.getVal());
                             return t;
